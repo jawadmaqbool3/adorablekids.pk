@@ -13,7 +13,7 @@
     @include('layout.style')
     {{-- <script src="{{asset('assets/js/html5shiv.js')}}"></script> --}}
     {{-- <script src="{{asset('assets/js/respond.min.js')}}"></script> --}}
-    <link rel="shortcut icon" href="{{asset('assets/favicon.ico')}}">
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 </head>
 
 <body>
