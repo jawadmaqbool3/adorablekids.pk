@@ -6,3 +6,4 @@
 <link  type="text/css" href="{{asset('assets/css/animate.css')}}" rel="stylesheet">
 <link  type="text/css" href="{{asset('assets/css/main.css')}}" rel="stylesheet">
 <link  type="text/css" href="{{asset('assets/css/responsive.css')}}" rel="stylesheet">
+<link  type="text/css" href="{{asset('assets/css/style.css')}}" rel="stylesheet">
