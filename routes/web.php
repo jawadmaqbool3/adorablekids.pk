@@ -16,3 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('dashboard.index');
 });
+Route::group(['namespace' => '\App\Http\Controllers'], function () {
+    Route::any('/', [
+        'uses' => "HomeController@index",
+        'as' => 'dashboard'
+    ]);
+});

@@ -2,26 +2,57 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Core\Helper;
+use App\Http\Traits\EmployeeTrait;
+use App\Http\Traits\OrderTrait;
+use App\Http\Traits\RoleTrait;
+use App\Http\Traits\UserDataTableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Yajra\DataTables\Facades\DataTables;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens,
+        HasFactory,
+        Notifiable,
+        OrderTrait,
+        RoleTrait;
+    protected $primaryKey = 'uid';
+    public $incrementing = false;
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->uid = Helper::_uid();
+        });
+    }
+    public function resetKey()
+    {
+        $this->primaryKey = 'id';
+        $this->incrementing = true;
+    }
+
+    public function scopeGet($query)
+    {
+        return $query;
+    }
+
+
+
+
+
+
+
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
