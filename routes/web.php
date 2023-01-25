@@ -21,4 +21,12 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "HomeController@index",
         'as' => 'dashboard'
     ]);
+    Route::get('product/{slug}', [
+        'uses' => "ProductController@show",
+        'as' => 'product.show'
+    ]);
+    Route::get('category/{slug}', [
+        'uses' => "ProductController@show",
+        'as' => 'category.show'
+    ]);
 });
