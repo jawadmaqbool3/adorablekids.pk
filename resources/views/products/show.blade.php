@@ -37,7 +37,8 @@
                                         <p class="mb-1">Available Stock <span
                                                 class="float-right">{{ $product->stock }}</span>
                                         </p>
-                                        <p>Price <span class="float-right">{{ $product->unit_price }}</span></p>
+                                        <p>Price <span class="float-right">{{ $product->unit_price }}
+                                                {{ config('app.currency') }}</span></p>
                                     @else
                                         <p class="text-center"><strong>Out of Stock</strong></p>
                                     @endif
