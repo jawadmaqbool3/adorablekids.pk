@@ -19,9 +19,9 @@ class ProductsPaginator extends Component
         if ($category) {
             $this->products = Product::whereHas('categories', function($query) use($category){
                 $query->where('category_id', $category->id);
-            })->published()->paginate(15);
+            })->published()->paginate(20);
         } else {
-            $this->products = Product::published()->paginate(15);
+            $this->products = Product::published()->paginate(20);
         }
     }
 
