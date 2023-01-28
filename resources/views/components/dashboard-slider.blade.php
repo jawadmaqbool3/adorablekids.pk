@@ -41,7 +41,7 @@
 </style>
 
 <!-- Swiper -->
-<div class="swiper mySwiper mb-5">
+<div class="swiper mySwiper mb-5" >
     <div class="swiper-wrapper">
         @foreach ($images as $image)
             <div class="swiper-slide shadow "><img
