@@ -5,7 +5,7 @@
     </div>
     <ul>
         @foreach ($categories as $category)
-            <li><a href="#">{{ $category->name }}</a></li>
+            <li><a href="{{route('category.show', $category->slug)}}">{{ ucwords(strtolower($category->name)) }}</a></li>
         @endforeach
     </ul>
 </div>

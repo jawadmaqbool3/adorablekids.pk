@@ -26,7 +26,7 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'as' => 'product.show'
     ]);
     Route::get('category/{slug}', [
-        'uses' => "ProductController@show",
+        'uses' => "CategoryController@show",
         'as' => 'category.show'
     ]);
 });
