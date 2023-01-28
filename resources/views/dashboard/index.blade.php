@@ -8,13 +8,13 @@
                 </div>
                 <div class="col-lg-9">
                     <x-search-bar />
-                    {{-- <x-page-slider /> --}}
+                            <x-dashboard-slider />
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="categories">
+    <section class="categories mt-5">
         <div class="container">
             <div class="row">
                 <x-featured-categories-slider />
