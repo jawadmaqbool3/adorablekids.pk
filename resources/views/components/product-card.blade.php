@@ -1,5 +1,4 @@
-<div class="col-lg-4 col-md-4 col-sm-6 mix" title="{{ $product->name }}">
-    <div class="featured__item card shadow p-3">
+    <div class="featured__item card  p-3" title="{{ $product->name }}">
         <div class=" featured__item__pic set-bg"
             data-setbg="{{ config('app.media_url') . '/assets/media/products/thumbs/' . $product->thumbnail }}">
             <ul class="featured__item__pic__hover">
@@ -23,10 +22,10 @@
         </div>
         <div class="featured__item__text">
 
-            <h6  style="overflow: hidden;
+            <h6 style="overflow: hidden;
             white-space: nowrap;
-            text-overflow: ellipsis;" class="p-0"><a 
-                    href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h6>
+            text-overflow: ellipsis;"
+                class="p-0"><a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a></h6>
             <h5>
                 @if ($product->unit_price)
                     {{ $product->unit_price }} {{ config('app.currency') }}
@@ -36,4 +35,3 @@
             </h5>
         </div>
     </div>
-</div>

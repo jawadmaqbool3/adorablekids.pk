@@ -40,6 +40,10 @@
 	--themeRed: #eb1a5c;
 }
 
+a:hover {
+	color:  var(--themeSky) !important;
+}
+
 
 html,
 body {

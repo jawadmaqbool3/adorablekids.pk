@@ -14,7 +14,7 @@ class ProductsPaginator extends Component
      * @return void
      */
     private $products;
-    public function __construct(Category $category = null)
+    public function __construct($category = null)
     {
         if ($category) {
             $this->products = Product::whereHas('categories', function($query) use($category){

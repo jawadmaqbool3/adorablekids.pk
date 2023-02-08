@@ -23,7 +23,11 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <x-search-bar />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <x-search-bar />
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col-md-8">

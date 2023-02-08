@@ -3,23 +3,16 @@
 namespace App\Models;
 
 use App\Core\Helper;
-use App\Http\Traits\EmployeeTrait;
-use App\Http\Traits\OrderTrait;
-use App\Http\Traits\RoleTrait;
-use App\Http\Traits\UserDataTableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Yajra\DataTables\Facades\DataTables;
 
 class User extends Authenticatable
 {
     use HasApiTokens,
         HasFactory,
-        Notifiable,
-        OrderTrait,
-        RoleTrait;
+        Notifiable;
     protected $primaryKey = 'uid';
     public $incrementing = false;
     protected static function boot()
