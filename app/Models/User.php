@@ -34,6 +34,41 @@ class User extends Authenticatable
     }
 
 
+    public function hasWishListProduct($product)
+    {
+        return UserWishlist::where('product_id', $product->id)->where('user_id', $this->id)->exists();
+    }
+
+    public function hasCartProduct($product)
+    {
+        return UserCart::where('product_id', $product->id)->where('user_id', $this->id)->exists();
+    }
+
+
+
+    public function wishlistProducts()
+    {
+        return $this->hasManyThrough(
+            Product::class,
+            UserWishlist::class,
+            'user_id',
+            'id',
+            'id',
+            'product_id',
+        );
+    }
+    
+    public function cartProducts()
+    {
+        return $this->hasManyThrough(
+            Product::class,
+            UserCart::class,
+            'user_id',
+            'id',
+            'id',
+            'product_id',
+        );
+    }
 
 
 

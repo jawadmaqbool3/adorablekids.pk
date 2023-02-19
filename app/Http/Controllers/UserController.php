@@ -257,7 +257,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|min:3',
             'cell_no' => 'required|max:10|min:8',
-            'email' => 'required|max:20|min:7',
+            'email' => 'required|max:30|min:7',
             'password' => 'required|confirmed|min:8|max:15',
         ]);
         DB::beginTransaction();
@@ -315,6 +315,46 @@ class UserController extends Controller
                 'error' => true,
                 'message' => 'Something went wrong',
                 'console' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        return response([
+            'success' => true,
+            'reload' => true,
+        ]);
+    }
+
+
+
+    public function loginForm()
+    {
+        if(auth()->check())
+        {
+            return redirect()->route('dashboard');
+        }
+        return view('user.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        if (auth()->attempt($credentials)) {
+            return response([
+                'success' => true,
+                'redirect' => true,
+                'url' => route('dashboard'),
+            ]);
+        } else {
+            return response([
+                'warning' => true,
+                'message' => 'Credentials doesn\'t match any account. try forget password to recover your password',
             ]);
         }
     }

@@ -25,6 +25,7 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "ProductController@index",
         'as' => 'products.index'
     ]);
+
     Route::get('categories', [
         'uses' => "CategoryController@index",
         'as' => 'categories.index'
@@ -47,8 +48,41 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'as' => 'registration.form'
     ]);
 
+    Route::get('login-form', [
+        'uses' => "UserController@loginForm",
+        'as' => 'login.form'
+    ]);
+    Route::post('login', [
+        'uses' => "UserController@login",
+        'as' => 'login'
+    ]);
+    Route::post('logout', [
+        'uses' => "UserController@logout",
+        'as' => 'logout'
+    ]);
+
+
+
     Route::post('customer/store', [
         'uses' => "UserController@customerStore",
         'as' => 'customer.store'
+    ]);
+
+    //Auth Routes
+    Route::post('whishlist/{product}', [
+        'uses' => "UserWishlistController@toggleProduct",
+        'as' => 'toggle.wishlist.product'
+    ]);
+    Route::post('cart/{product}', [
+        'uses' => "UserCartController@toggleProduct",
+        'as' => 'toggle.cart.product'
+    ]);
+    Route::get('wishlist', [
+        'uses' => "UserWishlistController@index",
+        'as' => 'wishlist.index'
+    ]);
+    Route::get('cart', [
+        'uses' => "UserCartController@index",
+        'as' => 'cart.index'
     ]);
 });

@@ -156,6 +156,18 @@ class Product extends UIDModel
         );
     }
 
+    public function wishListUsers()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserWishlist::class,
+            'product_id',
+            'id',
+            'id',
+            'user_id',
+        );
+    }
+
     public function feature()
     {
         return $this->hasOne(

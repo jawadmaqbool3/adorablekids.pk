@@ -4,10 +4,23 @@
     </div>
     <div class="humberger__menu__cart">
         <ul>
-            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+            @if (auth()->check())
+                <li><a href="{{ route('wishlist.index') }}"><i class="fa fa-heart"></i>
+                        <span>{{ auth()->user()->wishlistProducts->count() }}</span></a></li>
+                <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i>
+                        <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
+                <li>
+                    <form data-ajax="true" action="{{ route('logout') }}" method="post"><a title="sigin in"
+                            onclick="$(this).parent('form').submit()" href="#"><i class="fa fa-sign-out"></i>
+                            <span></span></a>
+                    </form>
+                </li>
+            @else
+                <li>
+                    <a title="sigin in" href="{{route('login.form')}}"><i class="fa fa-sign-in"></i> <span></span></a>
+                </li>
+            @endif
         </ul>
-        <div class="header__cart__price">item: <span>$150.00</span></div>
     </div>
 
     <nav class="humberger__menu__nav mobile-menu">
@@ -35,19 +48,24 @@
             </div>
             <div class="col-lg-4 mt-4">
                 <div class="header__cart">
-                    @if (auth()->check())
-                        <ul>
-                            <li><a title="Favourite" href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a title="Cart" href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a>
+                    <ul>
+                        @if (auth()->check())
+                            <li><a href="{{ route('wishlist.index') }}"><i class="fa fa-heart"></i>
+                                    <span>{{ auth()->user()->wishlistProducts->count() }}</span></a></li>
+                            <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i>
+                                    <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
+                            <li>
+                                <form data-ajax="true" action="{{ route('logout') }}" method="post"><a
+                                        title="sigin in" onclick="$(this).parent('form').submit()" href="#"><i
+                                            class="fa fa-sign-out"></i> <span></span></a>
+                                </form>
                             </li>
-                            <li><a title="Profile" href="#"><i class="fa fa-user"></i> <span>1</span></a></li>
-                        </ul>
-                        <div class="header__cart__price">item: <span>$150.00</span></div>
-                    @else
-                        <ul>
-                            <li><a title="sigin in" href="#"><i class="fa fa-sign-in"></i> <span></span></a></li>
-                        </ul>
-                    @endif
+                        @else
+                            <li>
+                                <a title="sigin in" href="{{route('login.form')}}"><i class="fa fa-sign-in"></i> <span></span></a>
+                            </li>
+                        @endif
+                    </ul>
                 </div>
             </div>
         </div>

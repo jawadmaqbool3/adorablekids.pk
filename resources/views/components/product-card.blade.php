@@ -2,9 +2,23 @@
         <div class=" featured__item__pic set-bg"
             data-setbg="{{ config('app.media_url') . '/assets/media/products/thumbs/' . $product->thumbnail }}">
             <ul class="featured__item__pic__hover">
-                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                <li>
+                    <form data-ajax="true" action="{{ route('toggle.wishlist.product', $product->uid) }}" method="post">
+                        <a class="select-product 
+                        @if (auth()->check() &&
+                                auth()->user()->hasWishListProduct($product)) bg-primary text-white @endif"
+                            onclick="$(this).parent('form').submit()"><i class="fa fa-heart"></i></a>
+                    </form>
+                </li>
+                <li><a class="select-product"><i class="fa fa-retweet"></i></a></li>
+                <li>
+                    <form data-ajax="true" action="{{ route('toggle.cart.product', $product->uid) }}" method="post">
+                        <a class="select-product 
+                        @if (auth()->check() &&
+                                auth()->user()->hasCartProduct($product)) bg-primary text-white @endif"
+                            onclick="$(this).parent('form').submit()"><i class="fa fa-shopping-cart"></i></a>
+                    </form>
+                </li>
             </ul>
             <div class="col-5 p-0">
                 @if ($product->stock == 0)
