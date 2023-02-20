@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,12 +44,21 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'as' => 'search'
     ]);
 
+    Route::get('forgot-password-form', [
+        'uses' => "UserController@customerForgotPasswordForm",
+        'as' => 'forgot.password.form'
+    ]);
+    Route::post('forgot-password', [
+        'uses' => "UserController@forgotPassword",
+        'as' => 'forgot.password'
+    ]);
+   
     Route::get('registeration-form', [
         'uses' => "UserController@customerRegistrationForm",
         'as' => 'registration.form'
     ]);
 
-    Route::get('login-form', [
+    Route::get('login/form', [
         'uses' => "UserController@loginForm",
         'as' => 'login.form'
     ]);
@@ -84,5 +94,21 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
     Route::get('cart', [
         'uses' => "UserCartController@index",
         'as' => 'cart.index'
+    ]);
+    Route::get('email', function () {
+        $user = User::first();
+        return view('email.forgot_password', compact('user'));
+    });
+    Route::get('confirm/{user}', [
+        'uses' => "UserController@confirm",
+        'as' => 'user.confirm'
+    ]);
+    Route::get('reset/password/form/{token}', [
+        'uses' => "UserController@resetPasswordForm",
+        'as' => 'reset.password.form'
+    ]);
+    Route::post('reset/password/{token}', [
+        'uses' => "UserController@resetPassword",
+        'as' => 'reset.password'
     ]);
 });

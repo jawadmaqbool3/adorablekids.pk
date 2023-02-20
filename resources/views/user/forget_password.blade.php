@@ -1,7 +1,7 @@
 @extends('layout.basic')
 <link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css" />
 @section('content')
-@section('page_title', 'adorablekids.pk customer login')
+@section('page_title', 'adorablekids.pk customer registation form')
 <section class="hero">
     <div class="container">
         <x-bread-crumbs :links="[
@@ -14,10 +14,10 @@
                     <div class="col-md-8 mx-auto">
                         <div class="row">
                             <div class="col-md-12 mb-3 text-center mt-5">
-                                <h3>Login</h3>
+                                <h3>Forget Password</h3>
                             </div>
                             <div class="col-md-12 ">
-                                <form data-ajax="true" action="{{ route('login') }}" method="post">
+                                <form data-ajax="true" action="{{ route('forgot.password') }}" method="post">
                                     <div class="row">
                                         <div class="col-sm-12 ">
                                             <div class="mb-3">
@@ -29,21 +29,12 @@
                                             </div>
                                         </div>
 
-
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Password <b
-                                                        class="text-danger">*</b></label>
-                                                <input maxlength="15" required type="password" name="password"
-                                                    id="password" class="form-control">
-                                            </div>
-                                        </div>
                                         <div class="col-md-12 mt-2">
-                                            <a href="{{ route('registration.form') }}">Don't have account?</a> <br>
-                                            <a href="{{ route('forgot.password.form') }}">Forgot Password?</a>
+                                            <a href="{{ route('login.form') }}">Login?</a> <br>
+                                            <a href="{{ route('registration.form') }}">Don't have account?</a>
                                         </div>
                                         <div class="col-md-12">
-                                            <button type="submit" class="site-btn float-right">Login</button>
+                                            <button type="submit" class="site-btn float-right">Submit Request</button>
                                             <a type="submit" class="site-btn float-right bg-primary"
                                                 href="{{ route('dashboard') }}">Cancel</a>
                                         </div>

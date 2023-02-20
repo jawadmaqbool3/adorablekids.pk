@@ -4,14 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Core\Helper;
 use App\Exceptions\CustomException;
+use App\Mail\ForgotPassword;
+use App\Mail\UserRegistered;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserRole;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserController extends Controller
 {
@@ -249,6 +254,9 @@ class UserController extends Controller
 
     public function customerRegistrationForm()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
         return view('user.registration_form');
     }
 
@@ -295,10 +303,10 @@ class UserController extends Controller
                 'user_id' => $user->id
             ]);
             DB::commit();
-            auth()->loginUsingId($user->uid);
+            Mail::to($user)->send(new UserRegistered($user));
             return response([
                 'success' => true,
-                'message' => 'Email confirmation link is sent to you. Please confirm to continue',
+                'message' => 'Email confirmation link is sent to your email address. Please confirm to continue',
                 'redirect' => true,
                 'url' => route('dashboard'),
             ]);
@@ -332,12 +340,13 @@ class UserController extends Controller
 
     public function loginForm()
     {
-        if(auth()->check())
-        {
+        if (auth()->check()) {
             return redirect()->route('dashboard');
         }
         return view('user.login');
     }
+
+
 
     public function login(Request $request)
     {
@@ -346,15 +355,113 @@ class UserController extends Controller
             'password' => $request->password
         ];
         if (auth()->attempt($credentials)) {
+            if (auth()->user()->email_verified_at == null) {
+                auth()->logout();
+                return response([
+                    'warning' => true,
+                    'message' => "Your account is not confirmed, please check your email and confirm your account",
+                ]);
+            }
             return response([
                 'success' => true,
+                'reload' => true,
+            ]);
+        } else {
+            return response([
+                'warning' => true,
+                'message' => 'Credentials doesn\'t match any account. try forget password to recover your password',
+            ]);
+        }
+    }
+
+    public function customerForgotPasswordForm()
+    {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+        return view('user.forget_password');
+    }
+
+
+    public function user(User $user)
+    {
+        if (!$user || $user->email_verified_at) {
+            throw new HttpException(403);
+        } else {
+            $now = Carbon::now()->format('Y-m-d H:i:s');
+            $user->email_verified_at = $now;
+            $user->save();
+            auth()->loginUsingId($user->id);
+            return redirect()->route('dashboard');
+        }
+    }
+
+    public function confirm(User $user)
+    {
+        if ($user->email_verified_at == null) {
+            auth()->loginUsingId($user->uid);
+            $user->email_verified_at = Carbon::now()->format('Y-m-d H:i:s');
+            $user->save();
+            return redirect()->route('dashboard');
+        } else {
+            throw new HttpException(498);
+        }
+    }
+
+
+    public function resetPasswordForm($token)
+    {
+        $user  = User::where('remember_token', $token)->first();
+        if ($user) {
+            return view('user.reset_password', compact('user'));
+        } else {
+            throw new HttpException(498);
+        }
+    }
+
+    public function resetPassword($token, Request $request)
+    {
+        $user = User::where('remember_token', $token)->first();
+        if ($user) {
+            $request->validate([
+                'password' => 'required|confirmed|min:8|max:15',
+            ]);
+            $user->password = Hash::make($request->password);
+            $user->remember_token = null;
+            $user->save();
+            return response([
+                'success' => true,
+                'message' => 'Password Updated, try to login using new password',
+                'redirect' => true,
+                'url' => route('login.form')
+            ]);
+        } else {
+            return response([
+                'warning' => true,
+                'message' => 'Reset password link is expired, try again with new page.',
+            ]);
+        }
+        return redirect()->route('dashboard');
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            $token = rand(1000000, 9999999);
+            $user->remember_token = $user->id . $token;
+            $user->save();
+            Mail::to($user)->send(new ForgotPassword($user));
+            return response([
+                'success' => true,
+                'message' => 'Email is sent to your email address. Please confirm to continue',
                 'redirect' => true,
                 'url' => route('dashboard'),
             ]);
         } else {
             return response([
                 'warning' => true,
-                'message' => 'Credentials doesn\'t match any account. try forget password to recover your password',
+                'message' => 'Unable to find your account. Check your email or register with a new account.',
             ]);
         }
     }

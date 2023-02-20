@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\UserCart;
 use App\Models\UserWishlist;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserCartController extends Controller
 {
@@ -94,7 +97,7 @@ class UserCartController extends Controller
 
         DB::beginTransaction();
         try {
-            
+
             $isAdded = UserCart::where('product_id', $product->id)
                 ->where('user_id', auth()->user()->id)->exists();
             if ($isAdded) {
@@ -130,4 +133,6 @@ class UserCartController extends Controller
             ]);
         }
     }
+
+    
 }

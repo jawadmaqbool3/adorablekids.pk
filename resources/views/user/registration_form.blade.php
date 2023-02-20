@@ -46,7 +46,7 @@
                                             <div class="mb-3">
                                                 <label for="" class="form-label">Email <b
                                                         class="text-danger">*</b></label>
-                                                <input maxlength="20" required type="email" name="email"
+                                                <input maxlength="30" required type="email" name="email"
                                                     id="email" class="form-control"
                                                     placeholder="e.g. jawadmaqboo32@gmail.com">
                                             </div>
@@ -63,7 +63,7 @@
                                                     <div class="mb-3">
                                                         <label for="" class="form-label">Password <b
                                                                 class="text-danger">*</b></label>
-                                                        <input maxlength="15" required type="password" name="password"
+                                                        <input maxlength="30" required type="password" name="password"
                                                             id="password" class="form-control">
                                                     </div>
 
@@ -72,7 +72,7 @@
                                                     <div class="mb-3">
                                                         <label for="" class="form-label">Confirm Password <b
                                                                 class="text-danger">*</b></label>
-                                                        <input maxlength="10" required type="password"
+                                                        <input maxlength="30" required type="password"
                                                             name="password_confirmation" id="password_confirmation "
                                                             class="form-control">
                                                     </div>

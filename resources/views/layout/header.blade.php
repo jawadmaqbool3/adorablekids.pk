@@ -11,7 +11,7 @@
                         <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
                 <li>
                     <form data-ajax="true" action="{{ route('logout') }}" method="post"><a title="sigin in"
-                            onclick="$(this).parent('form').submit()" href="#"><i class="fa fa-sign-out"></i>
+                            onclick="$(this).parent('form').submit()" ><i class="fa fa-sign-out"></i>
                             <span></span></a>
                     </form>
                 </li>
@@ -56,7 +56,7 @@
                                     <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
                             <li>
                                 <form data-ajax="true" action="{{ route('logout') }}" method="post"><a
-                                        title="sigin in" onclick="$(this).parent('form').submit()" href="#"><i
+                                        title="sigin in" onclick="$(this).parent('form').submit()" ><i
                                             class="fa fa-sign-out"></i> <span></span></a>
                                 </form>
                             </li>
