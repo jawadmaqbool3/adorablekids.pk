@@ -20,9 +20,18 @@ class UserCartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function index()
     {
-        dd('inde');
+        if (auth()->check() == false) {
+            return response([
+                "redirect" => true,
+                "url" => route('login.form')
+            ]);
+        }
+        return view('cart.index');
     }
 
     /**
@@ -95,6 +104,13 @@ class UserCartController extends Controller
     public function toggleProduct(Product $product)
     {
 
+        if (auth()->check() == false) {
+            return response([
+                "redirect" => true,
+                "url" => route('login.form')
+            ]);
+        }
+
         DB::beginTransaction();
         try {
 
@@ -133,6 +149,4 @@ class UserCartController extends Controller
             ]);
         }
     }
-
-    
 }

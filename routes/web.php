@@ -52,7 +52,7 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "UserController@forgotPassword",
         'as' => 'forgot.password'
     ]);
-   
+
     Route::get('registeration-form', [
         'uses' => "UserController@customerRegistrationForm",
         'as' => 'registration.form'
@@ -78,6 +78,24 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'as' => 'customer.store'
     ]);
 
+
+    Route::get('email', function () {
+        $user = User::first();
+        return view('email.forgot_password', compact('user'));
+    });
+    Route::get('confirm/{user}', [
+        'uses' => "UserController@confirm",
+        'as' => 'user.confirm'
+    ]);
+    Route::get('reset/password/form/{token}', [
+        'uses' => "UserController@resetPasswordForm",
+        'as' => 'reset.password.form'
+    ]);
+    Route::post('reset/password/{token}', [
+        'uses' => "UserController@resetPassword",
+        'as' => 'reset.password'
+    ]);
+
     //Auth Routes
     Route::post('whishlist/{product}', [
         'uses' => "UserWishlistController@toggleProduct",
@@ -94,21 +112,5 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
     Route::get('cart', [
         'uses' => "UserCartController@index",
         'as' => 'cart.index'
-    ]);
-    Route::get('email', function () {
-        $user = User::first();
-        return view('email.forgot_password', compact('user'));
-    });
-    Route::get('confirm/{user}', [
-        'uses' => "UserController@confirm",
-        'as' => 'user.confirm'
-    ]);
-    Route::get('reset/password/form/{token}', [
-        'uses' => "UserController@resetPasswordForm",
-        'as' => 'reset.password.form'
-    ]);
-    Route::post('reset/password/{token}', [
-        'uses' => "UserController@resetPassword",
-        'as' => 'reset.password'
     ]);
 });

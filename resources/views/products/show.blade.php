@@ -48,10 +48,22 @@
                                     @endif
                                     <div class="col-12 text-center">
                                         <ul class="featured__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            @if ($product->stock)
-                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                            @endif
+                                            <li>
+                                                <form data-ajax="true" action="{{ route('toggle.wishlist.product', $product->uid) }}" method="post">
+                                                    <a class="select-product 
+                                                    @if (auth()->check() &&
+                                                            auth()->user()->hasWishListProduct($product)) bg-primary text-white @endif"
+                                                        onclick="$(this).parent('form').submit()"><i class="fa fa-heart"></i></a>
+                                                </form>
+                                            </li>
+                                            <li>
+                                                <form data-ajax="true" action="{{ route('toggle.cart.product', $product->uid) }}" method="post">
+                                                    <a class="select-product 
+                                                    @if (auth()->check() &&
+                                                            auth()->user()->hasCartProduct($product)) bg-primary text-white @endif"
+                                                        onclick="$(this).parent('form').submit()"><i class="fa fa-shopping-cart"></i></a>
+                                                </form>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

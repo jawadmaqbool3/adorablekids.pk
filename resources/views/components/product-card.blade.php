@@ -10,7 +10,6 @@
                             onclick="$(this).parent('form').submit()"><i class="fa fa-heart"></i></a>
                     </form>
                 </li>
-                <li><a class="select-product"><i class="fa fa-retweet"></i></a></li>
                 <li>
                     <form data-ajax="true" action="{{ route('toggle.cart.product', $product->uid) }}" method="post">
                         <a class="select-product 
@@ -20,16 +19,16 @@
                     </form>
                 </li>
             </ul>
-            <div class="col-5 p-0">
+            <div class="d-inline-block p-2">
                 @if ($product->stock == 0)
                     <div class="product-status 
-            bg-danger w-40 p-1 text-white mt-2 fs-2 rounded">
-                        <small>Out of Stock</small>
+            bg-danger  p-1 text-white mt-2 fs-2 rounded">
+                        <small><i class="fa fa-database"></i> {{ $product->stock }}</small>
                     </div>
                 @elseif($product->stock < 5)
                     <div class="product-status 
-                bg-warning w-40 p-1 text-white mt-2 fs-2 rounded">
-                        <small>Low Stock</small>
+                bg-warning  p-1 text-white mt-2 fs-2 rounded">
+                        <small><i class="fa fa-database"></i> {{ $product->stock }}</small>
                     </div>
                 @endif
             </div>

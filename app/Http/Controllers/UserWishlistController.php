@@ -16,8 +16,19 @@ class UserWishlistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
+
+
     public function index()
     {
+        if (auth()->check() == false) {
+            return response([
+                "redirect" => true,
+                "url" => route('login.form')
+            ]);
+        }
         return view('wishlist.index');
     }
 
@@ -90,10 +101,15 @@ class UserWishlistController extends Controller
 
     public function toggleProduct(Product $product)
     {
-
+        if (auth()->check() == false) {
+            return response([
+                "redirect" => true,
+                "url" => route('login.form')
+            ]);
+        }
         DB::beginTransaction();
         try {
-           
+
             $isAdded = UserWishlist::where('product_id', $product->id)
                 ->where('user_id', auth()->user()->id)->exists();
             if ($isAdded) {
@@ -122,6 +138,7 @@ class UserWishlistController extends Controller
             ]);
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e);
             return response([
                 'error' => true,
                 'message' => 'Something went wrong',

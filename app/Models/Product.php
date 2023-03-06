@@ -167,6 +167,19 @@ class Product extends UIDModel
             'user_id',
         );
     }
+    
+    
+    public function cartListUsers()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserCart::class,
+            'product_id',
+            'id',
+            'id',
+            'user_id',
+        );
+    }
 
     public function feature()
     {
