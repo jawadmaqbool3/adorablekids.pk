@@ -12,7 +12,7 @@
                     'Wishlist' => route('wishlist.index'),
                 ]" />
 
-                <div class="col-md-9">
+                <div class="col-lg-9">
                     <div class="row">
                         <div class="col-md-12">
                             <h2 class="">My Cart</h2>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-lg-3">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="shoping__checkout">
@@ -46,4 +46,68 @@
     </section>
 @endsection
 @section('jsOutSide')
+    <script>
+        getCartItems();
+
+        function getCartItems() {
+            $.ajax({
+                url: "{{ route('cart.items') }}",
+                type: "GET",
+                success: function(response) {
+                    $('#list_wrapper').empty();
+                    for (let index = 0; index < response.cartItems.length; index++) {
+                        const item = response.cartItems[index];
+                        $('#list_wrapper').append(`
+                    <tr title="${item.name}">
+            <td class="shoping__cart__item">
+                <img style="width: 100px"
+                    src="{{ config('app.media_url') . '/assets/media/products/thumbs/' }}${item.thumbnail}"
+                    alt="">
+                <h5
+                    style="text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden; max-width:300px">
+                ${item.name}
+                    </h5>
+            </td>
+            <td class="shoping__cart__price">
+                ${item.unit_price} {{ config('app.currency') }}
+            </td>
+            <td class="shoping__cart__quantity">
+                <div class="quantity">
+                                            <div class="pro-qty"><span class="dec qtybtn">-</span>
+                                                <input type="text" value="1">
+                                            <span class="inc qtybtn">+</span></div>
+                                        </div>
+            </td>
+            <td class="shoping__cart__total">
+                ${item.unit_price}  {{ config('app.currency') }}
+            </td>
+            <td class="shoping__cart__item__close">
+                <form data-ajax="true" action="{{ url('cart') }}/${item.uid}" method="post">
+                    <a class="select-product"
+                        onclick="$(this).parent('form').submit()"><i class="fa fa-times"></i></a>
+                </form>
+            </td>
+        </tr>
+                    `);
+                    }
+
+                }
+            });
+        }
+
+        document.addEventListener("product_added_to_wishlist", function() {
+            getCartItems();
+        });
+        document.addEventListener("product_removed_from_wishlist", function() {
+            getCartItems();
+        });
+        document.addEventListener("product_added_to_cart", function() {
+            getCartItems();
+        });
+        document.addEventListener("product_removed_from_cart", function() {
+            getCartItems();
+        });
+    </script>
 @endsection

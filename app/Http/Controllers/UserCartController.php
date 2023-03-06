@@ -149,4 +149,16 @@ class UserCartController extends Controller
             ]);
         }
     }
+
+    public function cartItems()
+    {
+        if (auth()->check()) {
+            return response([
+                "cartItems" => auth()->user()->cartProducts,
+            ]);
+        }
+        return response([
+            "cartItems" => [],
+        ]);
+    }
 }

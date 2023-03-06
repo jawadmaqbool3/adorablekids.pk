@@ -6,18 +6,18 @@
         <ul>
             @if (auth()->check())
                 <li><a href="{{ route('wishlist.index') }}"><i class="fa fa-heart"></i>
-                        <span>{{ auth()->user()->wishlistProducts->count() }}</span></a></li>
+                        <span class="wishlist-count"></span></a></li>
                 <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i>
-                        <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
+                        <span class="cart-count"></span></a></li>
                 <li>
                     <form data-ajax="true" action="{{ route('logout') }}" method="post"><a title="sigin in"
                             onclick="$(this).parent('form').submit()"><i class="fa fa-sign-out"></i>
-                            <span></span></a>
+                           </a>
                     </form>
                 </li>
             @else
                 <li>
-                    <a title="sigin in" href="{{ route('login.form') }}"><i class="fa fa-sign-in"></i> <span></span></a>
+                    <a title="sigin in" href="{{ route('login.form') }}"><i class="fa fa-sign-in"></i></a>
                 </li>
             @endif
         </ul>
@@ -51,19 +51,19 @@
                     <ul>
                         @if (auth()->check())
                             <li><a href="{{ route('wishlist.index') }}"><i class="fa fa-heart"></i>
-                                    <span>{{ auth()->user()->wishlistProducts->count() }}</span></a></li>
+                                    <span class="wishlist-count">{{ auth()->user()->wishlistProducts->count() }}</span></a></li>
                             <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i>
-                                    <span>{{ auth()->user()->cartProducts->count() }}</span></a></li>
+                                    <span class="cart-count">{{ auth()->user()->cartProducts->count() }}</span></a></li>
                             <li>
                                 <form data-ajax="true" action="{{ route('logout') }}" method="post"><a
                                         title="sigin in" onclick="$(this).parent('form').submit()"><i
-                                            class="fa fa-sign-out"></i> <span></span></a>
+                                            class="fa fa-sign-out"></i></a>
                                 </form>
                             </li>
                         @else
                             <li>
                                 <a title="sigin in" href="{{ route('login.form') }}"><i class="fa fa-sign-in"></i>
-                                    <span></span></a>
+                                   </a>
                             </li>
                         @endif
                     </ul>

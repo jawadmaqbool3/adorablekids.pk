@@ -113,4 +113,12 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "UserCartController@index",
         'as' => 'cart.index'
     ]);
+    Route::get('cart_and_wishlist_counts', [
+        'uses' => "UserController@cartAndWishlistCounts",
+        'as' => 'cart.wishlist.counts'
+    ]);
+    Route::get('cart_items', [
+        'uses' => "UserCartController@cartItems",
+        'as' => 'cart.items'
+    ]);
 });

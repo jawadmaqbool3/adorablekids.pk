@@ -465,4 +465,18 @@ class UserController extends Controller
             ]);
         }
     }
+
+    public function cartAndWishlistCounts()
+    {
+        if (auth()->check()) {
+            return response([
+                "cartItems" => auth()->user()->cartProducts->count(),
+                "wishlistItems" => auth()->user()->wishlistProducts->count(),
+            ]);
+        }
+        return response([
+            "cartItems" => 0,
+            "wishlistItems" => 0,
+        ]);
+    }
 }
