@@ -27,8 +27,8 @@
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
                         <a href="{{ route('dashboard') }}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
+                        {{-- <a href="" class="primary-btn cart-btn-update cart-btn-right"><span class="icon_loading"></span>
+                            Upadate Cart</a> --}}
                     </div>
                 </div>
             </div>
@@ -47,5 +47,5 @@
         </div>
     </div> --}}
 @else
-    <h5>You don't have any product in wishlist</h5>
+    <h5>You don't have any product in cart</h5>
 @endif

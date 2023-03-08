@@ -33,8 +33,8 @@
                             <div class="shoping__checkout">
                                 <h5>Cart Total</h5>
                                 <ul>
-                                    <li>Subtotal <span>$454.98</span></li>
-                                    <li>Total <span>$454.98</span></li>
+                                    {{-- <li>Subtotal <span>$454.98</span></li> --}}
+                                    <li>Total <span id="cart_total">0 {{ config('app.currency') }}</span></li>
                                 </ul>
                                 <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                             </div>
@@ -58,7 +58,7 @@
                     for (let index = 0; index < response.cartItems.length; index++) {
                         const item = response.cartItems[index];
                         $('#list_wrapper').append(`
-                    <tr title="${item.name}">
+                    <tr data-stock="${item.stock}" data-price="${item.unit_price}" data-name="${item.name}" title="${item.name}">
             <td class="shoping__cart__item">
                 <img style="width: 100px"
                     src="{{ config('app.media_url') . '/assets/media/products/thumbs/' }}${item.thumbnail}"
@@ -76,12 +76,12 @@
             <td class="shoping__cart__quantity">
                 <div class="quantity">
                                             <div class="pro-qty"><span class="dec qtybtn">-</span>
-                                                <input type="text" value="1">
+                                                <input type="text" value="${item.stock?1:0}">
                                             <span class="inc qtybtn">+</span></div>
                                         </div>
             </td>
-            <td class="shoping__cart__total">
-                ${item.unit_price}  {{ config('app.currency') }}
+            <td data-total="${item.stock?item.unit_price:0}" class="shoping__cart__total">
+                ${item.stock?item.unit_price:0}  {{ config('app.currency') }}
             </td>
             <td class="shoping__cart__item__close">
                 <form data-ajax="true" action="{{ url('cart') }}/${item.uid}" method="post">
@@ -92,22 +92,60 @@
         </tr>
                     `);
                     }
+                    calculateTotal();
 
                 }
             });
+
         }
 
-        document.addEventListener("product_added_to_wishlist", function() {
-            getCartItems();
-        });
-        document.addEventListener("product_removed_from_wishlist", function() {
-            getCartItems();
-        });
+        // document.addEventListener("product_added_to_wishlist", function() {
+        //     getCartItems();
+        // });
+        // document.addEventListener("product_removed_from_wishlist", function() {
+        //     getCartItems();
+        // });
         document.addEventListener("product_added_to_cart", function() {
             getCartItems();
         });
         document.addEventListener("product_removed_from_cart", function() {
             getCartItems();
         });
+
+        function calculatePrice(selector) {
+            let quantity = Number(selector.find('.quantity input').val());
+            let price = Number(selector.data('price'));
+            let stock = Number(selector.data('stock'));
+
+            if (quantity > stock) {
+                selector.find('.quantity input').val(stock);
+                toastr.warning(
+                    "Stock ended",
+                    "warning", {
+                        timeOut: 5000,
+                        extendedTimeOut: 0,
+                        closeButton: true,
+                        closeDuration: 0
+                    }
+                );
+            } else {
+                selector.find('.shoping__cart__total').text((quantity * price) + " {{ config('app.currency') }}").data(
+                    'total', (quantity * price));
+            }
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            $('.shoping__cart__total').each(function() {
+                total += $(this).data('total') ? $(this).data('total') : 0;
+            })
+            $('#cart_total').text(total + "{{ config('app.currency') }}");
+        }
+
+        $(document).on('change', '.shoping__cart__quantity .quantity input', function() {
+            calculatePrice($(this).parents('tr'));
+            calculateTotal();
+        });
+
     </script>
 @endsection

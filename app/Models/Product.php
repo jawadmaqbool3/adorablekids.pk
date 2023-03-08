@@ -16,6 +16,10 @@ class Product extends UIDModel
         return $query;
     }
 
+    public function getUnitPriceAttribute()
+    {
+        return $this->attributes['unit_price'];
+    }
 
     public function scopePublished($query)
     {
@@ -167,8 +171,8 @@ class Product extends UIDModel
             'user_id',
         );
     }
-    
-    
+
+
     public function cartListUsers()
     {
         return $this->hasManyThrough(
