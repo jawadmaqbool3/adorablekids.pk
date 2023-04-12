@@ -161,4 +161,13 @@ class UserCartController extends Controller
             "cartItems" => [],
         ]);
     }
+
+    public function confirmation(Request $request)
+    {
+        $orderItems = json_decode($request->order);
+        $products = Product::whereIn("uid", $orderItems->products)->get();
+        $quantities = $orderItems->quantities;
+        $user = auth()->user();
+        return view("order.confirmation", compact("user", "products", "quantities"));
+    }
 }

@@ -15,9 +15,7 @@
                                 </tr>
                             </thead>
                             <tbody id="list_wrapper">
-                                @foreach ($products as $product)
-                                    <x-card-product-cart :product="$product" />
-                                @endforeach
+                                
                             </tbody>
                         </table>
                     </div>

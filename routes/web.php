@@ -121,4 +121,12 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "UserCartController@cartItems",
         'as' => 'cart.items'
     ]);
+    
+    Route::post('orders/confirm', [
+        'uses' => "UserCartController@confirmation",
+        'as' => 'orders.confirm'
+    ]);
+
+    Route::resource('orders', OrderController::class);
+
 });

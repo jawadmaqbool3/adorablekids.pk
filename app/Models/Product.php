@@ -16,10 +16,12 @@ class Product extends UIDModel
         return $query;
     }
 
-    public function getUnitPriceAttribute()
+   
+
+    public function calculatePrice($units)
     {
-        return $this->attributes['unit_price'];
-    }
+        return $this->unit_price * $units;
+    } 
 
     public function scopePublished($query)
     {

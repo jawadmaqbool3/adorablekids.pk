@@ -57,7 +57,7 @@ class User extends Authenticatable
             'product_id',
         );
     }
-    
+
     public function cartProducts()
     {
         return $this->hasManyThrough(
@@ -70,6 +70,11 @@ class User extends Authenticatable
         );
     }
 
+
+    public function details()
+    {
+        return $this->hasOne(UserDetail::class, "user_id", "id");
+    }
 
 
 

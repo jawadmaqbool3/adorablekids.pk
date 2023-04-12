@@ -1,4 +1,4 @@
-        <tr title="{{ $product->name }}">
+        <tr data-id="{{ $product->uid }}" data-stock="{{ $product->stock }}" title="{{ $product->name }}">
             <td class="shoping__cart__item">
                 <img style="width: 100px"
                     src="{{ config('app.media_url') . '/assets/media/products/thumbs/' . $product->thumbnail }}"

@@ -8,6 +8,7 @@ use App\Mail\ForgotPassword;
 use App\Mail\UserRegistered;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\UserDetail;
 use App\Models\UserRole;
 use Carbon\Carbon;
 use Exception;
@@ -301,6 +302,11 @@ class UserController extends Controller
             UserRole::create([
                 'role_id' => $role->id,
                 'user_id' => $user->id
+            ]);
+            UserDetail::create([
+                'user_id' => $user->id,
+                "address" => $request->address,
+                "phone" => $request->cell_no
             ]);
             DB::commit();
             Mail::to($user)->send(new UserRegistered($user));

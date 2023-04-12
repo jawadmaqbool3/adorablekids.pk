@@ -36,11 +36,13 @@
                                     {{-- <li>Subtotal <span>$454.98</span></li> --}}
                                     <li>Total <span id="cart_total">0 {{ config('app.currency') }}</span></li>
                                 </ul>
-                                <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                                <a href="#" id="btn_checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
                             </div>
                         </div>
                     </div>
                 </div>
+                <form style="display: none" action="{{ route('orders.confirm') }}" id="confirmation_form" method="post">
+                </form>
             </div>
         </div>
     </section>
@@ -58,7 +60,7 @@
                     for (let index = 0; index < response.cartItems.length; index++) {
                         const item = response.cartItems[index];
                         $('#list_wrapper').append(`
-                    <tr data-stock="${item.stock}" data-price="${item.unit_price}" data-name="${item.name}" title="${item.name}">
+                    <tr data-stock="${item.stock}" data-id="${item.uid}" data-price="${item.unit_price}" data-name="${item.name}" title="${item.name}">
             <td class="shoping__cart__item">
                 <img style="width: 100px"
                     src="{{ config('app.media_url') . '/assets/media/products/thumbs/' }}${item.thumbnail}"
@@ -147,5 +149,22 @@
             calculateTotal();
         });
 
+        $(document).on("click", "#btn_checkout", function() {
+            let products = [];
+            let quantities = [];
+            $("#list_wrapper tr").each(function() {
+                if ($(this).data("stock") > 0) {
+                    products.push($(this).data("id"));
+                    quantities.push($(this).find(".pro-qty input").val());
+                }
+            });
+            let order = {
+                products: products,
+                quantities: quantities
+            }
+            $("#confirmation_form").html(
+                `@csrf<textarea name="order" >${JSON.stringify(order)}</textarea>`).submit();
+
+        });
     </script>
 @endsection
