@@ -121,12 +121,15 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
         'uses' => "UserCartController@cartItems",
         'as' => 'cart.items'
     ]);
-    
+
     Route::post('orders/confirm', [
         'uses' => "UserCartController@confirmation",
         'as' => 'orders.confirm'
     ]);
+    Route::get('orders/paid/{order}', [
+        'uses' => "UserCartController@paid_order_callback",
+        'as' => 'order.paid.callback'
+    ]);
 
     Route::resource('orders', OrderController::class);
-
 });

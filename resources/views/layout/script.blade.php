@@ -9,6 +9,45 @@
 <script src="{{ asset('assets/js/toaster.js') }}"></script>
 <script>
     $(document).ready(function() {
+        @if (Session::has('warning'))
+            toastr.warning(
+                "{{ Session::get('warning') }}",
+                "Warning", {
+                    timeOut: 5000,
+                    extendedTimeOut: 0,
+                    closeButton: true,
+                    closeDuration: 0
+                }
+            );
+        @endif
+        @if (Session::has('success'))
+            toastr.success(
+                "{{ Session::get('success') }}",
+                "Success", {
+                    timeOut: 5000,
+                    extendedTimeOut: 0,
+                    closeButton: true,
+                    closeDuration: 0
+                }
+            );
+        @endif
+        @if (Session::has('error'))
+            toastr.error(
+                "{{ Session::get('error') }}",
+                "Error", {
+                    timeOut: 5000,
+                    extendedTimeOut: 0,
+                    closeButton: true,
+                    closeDuration: 0
+                }
+            );
+        @endif
+
+
+
+
+
+
         $(document).on('keyup', '#global_search_bar', function() {
             if ($(this).val()) {
                 $.ajax({

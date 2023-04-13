@@ -51,29 +51,18 @@ class OrderController extends Controller
     {
         DB::beginTransaction();
         try {
+            $payProController  = new PayProApiController();
             $order = $this->placeSaleOrder($request->all());
+            $PPOrder = $payProController->placeOrder($order);
             DB::commit();
-            return response([
-                'success' => true,
-                'table_reload' => true,
-                'redirect' => true,
-                'url' => $request->saveAndPrint == "true" ? route('sales.order.print', $order->uid) : route('orders.index'),
-                'message' => 'New order is placed',
-            ]);
+            $redirect = $PPOrder->Click2Pay . "&callback_url=" . route("order.paid.callback", $order->uid);
+            return redirect($redirect);
         } catch (CustomException $e) {
             DB::rollBack();
-            return response([
-                $e->getLevel() => true,
-                'message' => $e->getMessage(),
-            ]);
+            return redirect()->route("cart.index")->with($e->getLevel(), $e->getMessage());
         } catch (Exception $e) {
-            dd($e);
             DB::rollBack();
-            return response([
-                'error' => true,
-                'message' => 'Something went wrong',
-                'console' => $e->getMessage(),
-            ]);
+            return redirect()->route("cart.index")->with("error", 'Something went wrong');
         }
     }
 
@@ -124,8 +113,13 @@ class OrderController extends Controller
 
     public function placeSaleOrder($params): Order
     {
-        dd($params);
-        $order_items = $params["order"];
+        $products = Product::whereIn("uid", $params["products"])->get();
+        $quantities = $params["quantities"];
+        if ($products->count() != sizeof($quantities))   throw new CustomException("Products and quantities mismatch", "error");
+        if (!$params["delivery_address"])   throw new CustomException("Delivery address is required", "error");
+
+
+
         $revenue_amount = 0;
         $expense_amount = 0;
         $last_transaction_key = 0;
@@ -166,12 +160,11 @@ class OrderController extends Controller
             "order_id" => $order->id,
             "user_id" => auth()->user()->id
         ]);
-        foreach ($order_items as $key => $item) {
+        foreach ($products as $key => $product) {
             $last_transaction_key++;
-            $quantity = $item["quantity"];
-            $product = Product::where('uid', $item["id"])->first();
-            $price = $product->calculatePrice();
-            $amount = $quantity * $price;
+            $quantity = $quantities[$key];
+            $price = $product->calculatePrice($quantity) / $quantity;
+            $amount = $product->calculatePrice($quantity);
             $amount_ = $quantity * $product->purchase_price;
             if ($quantity > $product->stock) {
                 throw new CustomException("Cannot order more than available stock", 'error');

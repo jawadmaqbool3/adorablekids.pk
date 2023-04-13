@@ -25,6 +25,7 @@
                             </div>
                             <div class="col-md-12 ">
                                 <form action="{{ route('orders.store') }}" method="post">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-12">
                                             <table class="table table-bordered">

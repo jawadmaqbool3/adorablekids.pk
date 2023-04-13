@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\UserCart;
@@ -169,5 +170,10 @@ class UserCartController extends Controller
         $quantities = $orderItems->quantities;
         $user = auth()->user();
         return view("order.confirmation", compact("user", "products", "quantities"));
+    }
+
+    public function paid_order_callback(Order $order)
+    {
+        dd($order);
     }
 }
