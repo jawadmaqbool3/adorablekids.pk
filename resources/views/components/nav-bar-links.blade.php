@@ -11,5 +11,5 @@
     </li> --}}
     <li @if (Route::currentRouteName() == 'categories.index') class="active" @endif><a href="{{ route('categories.index') }}">Categories</a>
     </li>
-    <li @if (Route::currentRouteName() == 'contact.us') class="active" @endif><a href="#">Contact</a></li>
+    <li @if (Route::currentRouteName() == 'contact.us') class="active" @endif><a href="{{route("contact.index")}}">Contact</a></li>
 </ul>

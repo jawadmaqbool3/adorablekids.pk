@@ -1,10 +1,11 @@
-    <div class="featured__item card  p-3" title="{{ $product->name }}">
+    <div class="featured__item card  p-3 redirect" title="{{ $product->name }}"
+        data-redirect="{{ route('product.show', $product->slug) }}">
         <div class=" featured__item__pic set-bg"
             data-setbg="{{ config('app.media_url') . '/assets/media/products/thumbs/' . $product->thumbnail }}">
             <ul class="featured__item__pic__hover">
                 <li>
                     <form data-ajax="true" action="{{ route('toggle.wishlist.product', $product->uid) }}" method="post">
-                        <a class="select-product 
+                        <a class="select-product anti-redirect
                         @if (auth()->check() &&
                                 auth()->user()->hasWishListProduct($product)) bg-primary text-white @endif"
                             onclick="$(this).parent('form').submit()"><i class="fa fa-heart"></i></a>
@@ -12,7 +13,7 @@
                 </li>
                 <li>
                     <form data-ajax="true" action="{{ route('toggle.cart.product', $product->uid) }}" method="post">
-                        <a class="select-product 
+                        <a class="select-product anti-redirect
                         @if (auth()->check() &&
                                 auth()->user()->hasCartProduct($product)) bg-primary text-white @endif"
                             onclick="$(this).parent('form').submit()"><i class="fa fa-shopping-cart"></i></a>

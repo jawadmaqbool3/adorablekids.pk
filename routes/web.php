@@ -132,4 +132,5 @@ Route::group(['namespace' => '\App\Http\Controllers'], function () {
     ]);
 
     Route::resource('orders', OrderController::class);
+    Route::resource('contact', ContactController::class);
 });

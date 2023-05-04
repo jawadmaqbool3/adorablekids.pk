@@ -245,4 +245,10 @@
             currentProduct.removeClass('bg-primary text-white');
         });
     @endif
+    $(document).on("click", ".redirect", function(e) {
+        let element = $(e.target);
+        if (element.hasClass("anti-redirect") == false && element.parents(".anti-redirect").length == false) {
+            window.location.href = $(this).data("redirect");
+        }
+    });
 </script>
